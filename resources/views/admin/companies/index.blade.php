@@ -172,61 +172,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-                                aria-label="Table navigation">
-                                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Showing
-                                    <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-                                    of
-                                    <span class="font-semibold text-gray-900 dark:text-white">1000</span>
-                                </span>
-                                <ul class="inline-flex items-stretch -space-x-px">
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                            <span class="sr-only">Previous</span>
-                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                                viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" aria-current="page"
-                                            class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                            <span class="sr-only">Next</span>
-                                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                                viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <!-- Pagination links -->
+                            <div class="mt-4 px-3 pb-3">
+                                {{ $companies->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -329,41 +278,61 @@
                                 </button>
                             </div>
                             <!-- Modal body -->
-                            <form action="{{ isset($company) ? route('companies.update', $company->id) : route('companies.store') }}" method="POST">
+                            <form
+                                action="{{ isset($company) ? route('companies.update', $company->id) : route('companies.store') }}"
+                                method="POST">
                                 @csrf
-                                @if(isset($company))
+                                @if (isset($company))
                                     @method('PUT')
                                 @endif
                                 <!-- Add this line to indicate that it's a PUT request for the update -->
 
                                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                     <div>
-                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                        <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Name" value="{{ isset($company) ? $company->name : '' }}" required="">
+                                        <label for="name"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                        <input type="text" name="name" id="name"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Name" value="{{ isset($company) ? $company->name : '' }}"
+                                            required="">
                                     </div>
                                     <div>
-                                        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                                        <input type="text" name="location" id="location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Company Location" value="{{ isset($company) ? $company->location : '' }}" required="">
+                                        <label for="location"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                                        <input type="text" name="location" id="location"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Company Location"
+                                            value="{{ isset($company) ? $company->location : '' }}" required="">
                                     </div>
                                     <div>
-                                        <label for="size" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>
-                                        <select id="size" name="size" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                        <label for="size"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>
+                                        <select id="size" name="size"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                             @foreach (['small', 'medium', 'large'] as $size)
-                                                <option value="{{ $size }}" @if (isset($company) && $company->size === $size) selected @endif>
+                                                <option value="{{ $size }}"
+                                                    @if (isset($company) && $company->size === $size) selected @endif>
                                                     {{ ucfirst($size) }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="sm:col-span-2">
-                                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                        <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write company description here">{{ isset($company) ? $company->description : '' }}</textarea>
+                                        <label for="description"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                        <textarea id="description" name="description" rows="4"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Write company description here">{{ isset($company) ? $company->description : '' }}</textarea>
                                     </div>
                                 </div>
 
-                                <button type="submit" class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                    <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                                <button type="submit"
+                                    class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                     Update Company
                                 </button>
@@ -399,13 +368,15 @@
                                 </div>
                             </div>
                             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Name</dt>
-                            <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ isset($company) ? $company->name : '' }}
+                            <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+                                {{ isset($company) ? $company->name : '' }}
                             </dd>
                             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Description</dt>
                             <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
                                 {{ isset($company) ? $company->description : '' }}</dd>
                             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Company</dt>
-                            <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400"> {{ isset($company) ? $company->name :'' }}
+                            <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+                                {{ isset($company) ? $company->name : '' }}
                             </dd>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center space-x-3 sm:space-x-4">
@@ -468,14 +439,14 @@
                                 <button data-modal-toggle="deleteModal" type="button"
                                     class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                                     cancel</button>
-                                @if(isset($company))
-                                <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">Yes,
-                                        I'm sure</button>
-                                </form>
+                                @if (isset($company))
+                                    <form action="{{ route('companies.destroy', $company->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">Yes,
+                                            I'm sure</button>
+                                    </form>
                                 @endif
                             </div>
                         </div>

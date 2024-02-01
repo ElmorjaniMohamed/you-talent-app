@@ -6,23 +6,26 @@ use App\Http\Requests\StoreAdvertRequest;
 use App\Models\Company;
 use App\Models\Advert;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class AdvertController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $adverts = Advert::latest()->paginate(5);
         $companies = Company::all();
-        return view('admin.adverts.index', compact('adverts', 'companies'))->with('i', (request()->input('page', 1) - 1) * 5);
+
+        return view('admin.adverts.index', compact('adverts', 'companies'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $companies = Company::all();
         return view('adverts.create', compact('companies'));
@@ -31,11 +34,12 @@ class AdvertController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAdvertRequest $request): RedirectResponse
+    public function store(StoreAdvertRequest $request)
     {
-        $validateData = $request->validated();
 
-        Advert::create($validateData);
+        $validatedData = $request->validated();
+
+        Advert::create($validatedData);
 
         return redirect()->route('adverts.index')->with('success', 'Advert created successfully.');
     }
@@ -43,19 +47,21 @@ class AdvertController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): View
     {
         $advert = Advert::findOrFail($id);
+
         return view('adverts.show', compact('advert'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): View
     {
         $advert = Advert::findOrFail($id);
         $companies = Company::all();
+
         return view('adverts.edit', compact('advert', 'companies'));
     }
 
@@ -66,8 +72,8 @@ class AdvertController extends Controller
     {
         $validatedData = $request->validated();
 
-        $company = Advert::findOrFail($id);
-        $company->update($validatedData);
+        $advert = Advert::findOrFail($id);
+        $advert->update($validatedData);
 
         return redirect()->route('adverts.index')->with('success', 'Advert updated successfully.');
     }
@@ -75,7 +81,7 @@ class AdvertController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $advert = Advert::findOrFail($id);
         $advert->delete();
