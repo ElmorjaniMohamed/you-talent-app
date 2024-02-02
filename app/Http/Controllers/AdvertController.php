@@ -15,11 +15,19 @@ class AdvertController extends Controller
      */
     public function index(): View
     {
-        $adverts = Advert::latest()->paginate(5);
+        $adverts = Advert::latest()->with('company')->paginate(5);
         $companies = Company::all();
 
         return view('admin.adverts.index', compact('adverts', 'companies'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+    public function home(): View
+    {
+        $adverts = Advert::latest()->with('company')->paginate(4);
+        $companies = Company::all();
+
+        return view('welcome', compact('adverts'))
+            ->with('i', (request()->input('page', 1) - 1) * 4);
     }
 
     /**
@@ -37,9 +45,11 @@ class AdvertController extends Controller
     public function store(StoreAdvertRequest $request)
     {
 
+
         $validatedData = $request->validated();
 
         Advert::create($validatedData);
+        // dd($validatedData);
 
         return redirect()->route('adverts.index')->with('success', 'Advert created successfully.');
     }
@@ -81,7 +91,8 @@ class AdvertController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+
+   public function destroy(string $id): RedirectResponse
     {
         $advert = Advert::findOrFail($id);
         $advert->delete();

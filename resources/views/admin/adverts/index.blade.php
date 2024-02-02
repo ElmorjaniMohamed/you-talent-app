@@ -94,7 +94,7 @@
                                                     {{ $advert->title }}
                                                 </td>
                                                 <td class="px-4 py-3">{{ $advert->content }}</td>
-                                                <td class="px-4 py-3">{{ $advert->company_id }}
+                                                <td class="px-4 py-3">{{ $advert->company->name }}
                                                 </td>
                                                 <td class="px-4 py-3 max-w-[12rem] truncate">{{ $advert->created_at }}
                                                 </td>
@@ -216,7 +216,7 @@
                                     <div>
                                         <label for="category"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                                        <select id="category"
+                                        <select id="category" name="company_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                             <option selected disabled>Select Company</option>
                                             @foreach ($companies as $company)
@@ -271,7 +271,7 @@
                             </div>
                             <!-- Modal body -->
                             <form
-                                action="{{ isset($advert) ? route('adverts.update', $advert->id) : route('adverts.store') }}"
+                                action="{{ isset($advert) ? route('adverts.update', $advert->id) : route('adverts.update') }}"
                                 method="POST">
                                 @csrf
                                 @if (isset($advert))

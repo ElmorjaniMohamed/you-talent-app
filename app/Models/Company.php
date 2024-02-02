@@ -12,10 +12,10 @@ class Company extends Model
     use SoftDeletes;
 
     protected $fillable = ['name', 'description', 'size', 'location'];
-    protected $dates = ['delete_at'];
+    protected $dates = ['deleted_at'];
     public function adverts()
     {
-        return $this->hasMany(Advert::class);
+        return $this->hasMany(Advert::class, 'company_id', 'id');
     }
 
 
