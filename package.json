@@ -16,6 +16,9 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "flowbite": "^2.2.1"
+        "animate.css": "^4.1.1",
+        "apexcharts": "^3.45.2",
+        "flowbite": "^2.2.1",
+        "sweetalert2": "^11.10.5"
     }
 }

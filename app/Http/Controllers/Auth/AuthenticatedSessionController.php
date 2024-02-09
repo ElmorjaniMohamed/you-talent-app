@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,6 +30,20 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = User::where('email', $request->email)->get();
+
+        if (in_array('admin', $user->getRoleNames())) {
+            return redirect('/dashboard');
+        }
+
+        if (in_array('superAdmin', $user->getRoleNames())) {
+            return redirect('/dashboard');
+        }
+
+        if(in_array('learner', $user->getRoleNames())){
+            return redirect('/');
+        }
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -43,6 +58,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

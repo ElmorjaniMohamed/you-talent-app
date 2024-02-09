@@ -30,8 +30,14 @@ class StoreAdvertRequest extends FormRequest
 
     public function messages(): array
     {
-        return[
-            
+        return [
+            'title.required' => 'The title field is required.',
+            'title.string' => 'The title must be a string.',
+            'title.max' => 'The title may not be greater than :max characters.',
+            'content.required' => 'The content field is required.',
+            'content.string' => 'The content must be a string.',
+            'company_name.required' => 'The company name field is required.',
+            'company_name.exists' => 'The selected company name is invalid.',
         ];
     }
 }

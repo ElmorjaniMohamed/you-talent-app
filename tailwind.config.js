@@ -4,7 +4,6 @@ import forms from "@tailwindcss/forms";
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: 'class',
-    darkMode: 'media',
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
@@ -70,5 +69,7 @@ export default {
         },
     },
 
-    plugins: [forms, require("flowbite/plugin")],
+    plugins: [forms, require('flowbite/plugin')({
+        charts: true,
+    }),],
 };
