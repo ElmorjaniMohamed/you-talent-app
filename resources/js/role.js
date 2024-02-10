@@ -22,25 +22,26 @@ $("#roleTable").on("click", ".delete-Button", function() {
             if (result.isConfirmed) {
                 // Suppression de l'annonce via une requête AJAX
                 $.ajax({
-                    url: `rolles/${roleId}`,
+                    url: `roles/${roleId}`,
                     type: "DELETE",
                     success: function(response) {
+                        console.log(response);
                         if (response.status === "success") {
                             // Annonce supprimée avec succès
                             Swal.fire({
                                 title: "Deleted!",
-                                text: "User has been deleted.",
+                                text: "Role has been deleted.",
                                 icon: "success",
                                 timer: 1500,
                             });
 
                             // Supprimer la ligne du tableau correspondant à l'annonce supprimée
-                            $(`#user_${roleId}`).remove();
+                            $(`#role_${roleId}`).remove();
                         } else {
                             // Échec de la suppression
                             Swal.fire({
                                 title: "Failed!",
-                                text: "User to delete Advert!",
+                                text: "Unable to delete Role!",
                                 icon: "error",
                             });
                         }
@@ -49,7 +50,7 @@ $("#roleTable").on("click", ".delete-Button", function() {
                         // Erreur lors de la requête AJAX
                         Swal.fire({
                             title: "Failed!",
-                            text: "User to delete Advert!",
+                            text: "Unable to delete Role!",
                             icon: "error",
                         });
                     },

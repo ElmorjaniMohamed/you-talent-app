@@ -89,38 +89,31 @@ class UserController extends Controller
 
     $user = User::find($id);
 
-    // Vérifie si un nouveau fichier image est téléchargé
     if ($request->hasFile('image')) {
-        // Supprime l'image précédente s'il en existe une
+        
         if ($user->image) {
-            // Supprime l'image précédente du stockage
+
             Storage::delete('public/avatars/' . $user->image);
         }
 
-        // Télécharge et enregistre la nouvelle image
         $image = $request->file('image');
         $imageName = $image->getClientOriginalName();
         $image->storeAs('public/avatars/', $imageName);
         $user->image = $imageName;
-    } else{
-        $user->image = $user->image;
     }
 
     $input = $request->all();
-    // Met à jour le mot de passe si un nouveau mot de passe est fourni
+
     if (!empty($input['password'])) {
         $input['password'] = Hash::make($input['password']);
     } else {
-        // Sinon, exclut le champ de mot de passe de la mise à jour
         $input = Arr::except($input, ['password']);
     }
 
-    // Met à jour les autres champs de l'utilisateur
     $user->update($input);
 
-    // Supprime les rôles précédents de l'utilisateur
     DB::table('model_has_roles')->where('model_id', $id)->delete();
-    // Attribue les nouveaux rôles à l'utilisateur
+
     $user->assignRole($request->input('roles'));
 
     return redirect()->route('users.index')

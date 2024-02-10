@@ -29,6 +29,10 @@ class RolesTableSeeder extends Seeder
                     'update-company',
                     'delete-company',
                     'role-list',
+                    'skill-list',
+                    'create-skill',
+                    'edit-skill',
+                    'delete-skill'
                 ]
             ],
             [
@@ -46,6 +50,10 @@ class RolesTableSeeder extends Seeder
                     'create-role',
                     'edit-role',
                     'delete-role',
+                    'skill-list',
+                    'create-skill',
+                    'edit-skill',
+                    'delete-skill'
 
                 ]
             ],

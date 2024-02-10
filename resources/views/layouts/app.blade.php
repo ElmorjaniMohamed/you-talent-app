@@ -49,6 +49,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite(['resources/js/advert.js'])
     @vite(['resources/js/user.js'])
+    @vite(['resources/js/role.js'])
 
 </body>
 

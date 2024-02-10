@@ -40,7 +40,7 @@ $("#userTable").on("click", ".delete-Button", function() {
                             // Échec de la suppression
                             Swal.fire({
                                 title: "Failed!",
-                                text: "User to delete Advert!",
+                                text: "Unable to delete User!",
                                 icon: "error",
                             });
                         }
@@ -49,7 +49,7 @@ $("#userTable").on("click", ".delete-Button", function() {
                         // Erreur lors de la requête AJAX
                         Swal.fire({
                             title: "Failed!",
-                            text: "User to delete Advert!",
+                            text: "Unable to delete User!",
                             icon: "error",
                         });
                     },
