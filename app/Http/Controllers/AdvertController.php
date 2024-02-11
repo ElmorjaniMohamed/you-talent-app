@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAdvertRequest;
 use App\Models\Company;
 use App\Models\Advert;
+use App\Models\Skill;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -27,10 +28,11 @@ class AdvertController extends Controller
      */
     public function index(): View
     {
-        $adverts = Advert::latest()->with('company')->paginate(5);
+        $adverts = Advert::latest()->with('company', 'skills')->paginate(5);
         $companies = Company::all();
+        $skills = Skill::all();
 
-        return view('admin.adverts.index', compact('adverts', 'companies'))
+        return view('admin.adverts.index', compact('adverts', 'companies', 'skills'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -56,20 +58,38 @@ class AdvertController extends Controller
     }
     public function home(): View
     {
-        $adverts = Advert::latest()->with('company')->paginate(4);
-        $companies = Company::all();
+        $userSkills = auth()->user()->skills;
 
-        return view('welcome', compact('adverts'))
-            ->with('i', (request()->input('page', 1) - 1) * 4);
+        $adverts = Advert::whereHas('skills', function ($query) use ($userSkills) {
+            $query->whereIn('id', $userSkills->pluck('id'));
+        })->latest()->with('company', 'skills')->paginate(8);
+
+        $companies = Company::all();
+        $skills = Skill::all();
+        return view('welcome', compact('adverts', 'companies', 'skills'))
+            ->with('i', (request()->input('page', 1) - 1) * 8);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+    public function apply(Request $request, Advert $advert)
+    {
+        if (auth()->check()) {
+            $user = auth()->user();
+
+            $advert->users()->attach($user);
+
+            return response()->json(['message' => 'Application successful'], 200);
+        } else {
+
+            return redirect('/register');
+        }
+    }
+
     public function create(): View
     {
         $companies = Company::all();
-        return view('admin.adverts.create', compact('companies'));
+        $skills = Skill::all();
+        return view('admin.adverts.create', compact('companies', 'skills'));
     }
 
     /**
@@ -81,14 +101,15 @@ class AdvertController extends Controller
 
         $advert = Advert::create($validatedData);
 
+        $selectedSkills = $request->input('skills', []);
+
+        $advert->skills()->sync($selectedSkills);
+
         return response()->json([
             'message' => 'Advert created successfully',
             'redirect_url' => route('adverts.index')
         ]);
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -107,8 +128,9 @@ class AdvertController extends Controller
     {
         $advert = Advert::findOrFail($id);
         $companies = Company::all();
+        $skills = Skill::all();
 
-        return view('admin.adverts.edit', compact('advert', 'companies'));
+        return view('admin.adverts.edit', compact('advert', 'companies', 'skills'));
     }
 
     /**

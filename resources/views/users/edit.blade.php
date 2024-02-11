@@ -21,7 +21,7 @@
                                         Update User</h3>
                                 </div>
                                 <!-- body -->
-                                <form action="{{ route('users.update', $user->id) }}" method="POST">
+                                <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="grid gap-4 mb-4 sm:grid-cols-2">
@@ -77,7 +77,7 @@
                                             </button>
                                             <div id="dropdownSearch"
                                                 class="z-10 absolute w-full hidden bg-white rounded-lg shadow dark:bg-gray-700">
-                                                <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                                                <ul class="px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownSearchButton">
                                                     <!-- Roles list -->
                                                     @foreach ($roles as $roleName => $roleLabel)

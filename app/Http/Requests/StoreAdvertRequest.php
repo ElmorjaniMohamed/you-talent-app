@@ -25,6 +25,8 @@ class StoreAdvertRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'company_id' => 'required|exists:companies,id',
+            'skills' => 'required|array',
+            'skills.*' => 'exists:skills,id',
         ];
     }
 

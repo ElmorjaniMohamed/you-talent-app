@@ -10,7 +10,7 @@
             <div>
                 <!-- Start block -->
                 <div class="bg-slate-100 dark:bg-gray-900 p-3 sm:p-5 antialiased">
-                    <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+                    <div class="mx-auto max-w-screen-xl max-h-full px-4 lg:px-12">
                         <!-- Start coding here -->
                         <div class="bg-white dark:bg-gray-800 relative  shadow-md sm:rounded-lg overflow-hidden">
                             <div class="relative p-4 bg-white rounded-lg shadow  dark:bg-gray-800 sm:p-5">
@@ -78,7 +78,7 @@
                                             </button>
                                             <div id="dropdownSearch"
                                                 class="z-10 absolute w-full hidden bg-white rounded-lg shadow dark:bg-gray-700">
-                                                <ul class="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+                                                <ul class="px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownSearchButton">
                                                     <!-- Permissions list -->
                                                     @foreach ($roles as $role)

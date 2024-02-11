@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Skill;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,30 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        $skills = Skill::all();
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'skills' => $skills,
         ]);
+    }
+
+    /**
+     * Ajoute les compétences sélectionnées par l'utilisateur à son profil.
+     */
+    public function addSkills(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'skills' => 'required|array',
+            'skills.*' => 'exists:skills,id',
+        ]);
+
+        $user = $request->user();
+        $selectedSkills = $request->input('skills', []);
+
+        $user->skills()->sync($selectedSkills);
+
+        return redirect()->route('profile.edit')->with('status', 'skills-added');
     }
 
     /**
@@ -36,6 +58,9 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
+
+
 
     /**
      * Delete the user's account.

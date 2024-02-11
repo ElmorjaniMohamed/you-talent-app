@@ -29,12 +29,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile', [ProfileController::class, 'addSkills'])->name('profile.addSkills');
     Route::resource('users', UserController::class);
 });
 
 require __DIR__.'/auth.php';
 Route::get('/search', [AdvertController::class, 'search'])->name('adverts.search');
 Route::get('/search', [CompanyController::class, 'search'])->name('companies.search');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/adverts/{advert}/apply', [AdvertController::class, 'apply'])->name('adverts.apply');
+});
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('companies', CompanyController::class);

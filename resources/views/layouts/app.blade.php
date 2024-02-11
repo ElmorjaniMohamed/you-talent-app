@@ -50,6 +50,7 @@
     @vite(['resources/js/advert.js'])
     @vite(['resources/js/user.js'])
     @vite(['resources/js/role.js'])
+    @vite(['resources/js/skill.js'])
 
 </body>
 

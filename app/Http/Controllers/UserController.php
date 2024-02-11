@@ -83,14 +83,17 @@ class UserController extends Controller
     $this->validate($request, [
         'name' => 'required',
         'email' => 'required|email|unique:users,email,' . $id,
+        'image' => 'image',
         'password' => 'same:confirm-password',
         'roles' => 'required'
     ]);
 
     $user = User::find($id);
 
+    $imageName = $user->image;
+
     if ($request->hasFile('image')) {
-        
+
         if ($user->image) {
 
             Storage::delete('public/avatars/' . $user->image);

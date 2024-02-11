@@ -27,8 +27,8 @@ class SkillController extends Controller
      */
     public function index()
     {
-        $skills = Skill::all();
-        return view('skills.index', compact('skills'));
+        $skills = Skill::latest()->paginate(5);;
+        return view('admin.skills.index', compact('skills'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -36,7 +36,7 @@ class SkillController extends Controller
      */
     public function create()
     {
-        return view('skills.create');
+        return view('admin.skills.create');
     }
 
     /**
@@ -63,7 +63,7 @@ class SkillController extends Controller
      */
     public function edit(Skill $skill)
     {
-        return view('skills.edit', compact('skill'));
+        return view('admin.skills.edit', compact('skill'));
     }
 
     /**
@@ -82,9 +82,12 @@ class SkillController extends Controller
      */
     public function destroy(Skill $skill)
     {
-        $skill->delete();
 
-        return redirect()->route('skills.index')
-            ->with('success', 'Skill deleted successfully');
+        if ($skill) {
+            $skill->delete();
+            return response()->json(['status' => 'success', 'message' => 'Success! Skill is deleted']);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Failed! Unable to delete Skill']);
     }
 }

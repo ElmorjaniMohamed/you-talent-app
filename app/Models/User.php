@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Skill::class, 'users_skills');
     }
+
+    public function adverts()
+    {
+        return $this->belongsToMany(Advert::class, 'adverts_users');
+    }
 }
