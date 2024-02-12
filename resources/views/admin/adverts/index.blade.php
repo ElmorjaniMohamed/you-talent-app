@@ -81,6 +81,8 @@
                                             <th scope="col" class="px-4 py-3">Company</th>
                                             <th scope="col" class="px-4 py-3">Create at</th>
                                             <th scope="col" class="px-4 py-3">Update at</th>
+                                            <th scope="col" class="px-4 py-3">Users Applied</th>
+                                            <th scope="col" class="px-4 py-3">N° Users</th>
                                             <th scope="col" class="px-4 py-3">
                                                 <span class="sr-only">Actions</span>
                                             </th>
@@ -99,6 +101,46 @@
                                                 <td class="px-4 py-3 max-w-[12rem] truncate">{{ $advert->created_at }}
                                                 </td>
                                                 <td class="px-4 py-3">{{ $advert->updated_at }}</td>
+                                                <td class="px-4 py-3">
+                                                    <div class="relative">
+                                                        <!-- Dropdown button -->
+                                                        <button id="{{ $advert->id }}-dropdownUsersButton"
+                                                            data-dropdown-toggle="{{ $advert->id }}-dropdownUsers"
+                                                            data-dropdown-placement="bottom"
+                                                            class="text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2 text-center me-2  dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900 inline-flex items-center"
+                                                            type="button">
+                                                            Users
+                                                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 10 6">
+                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="m1 1 4 4 4-4" />
+                                                            </svg>
+                                                        </button>
+
+                                                        <!-- Dropdown menu -->
+                                                        <div id="{{ $advert->id }}-dropdownUsers"
+                                                            class="hidden z-10 bg-white rounded-lg shadow w-60 dark:bg-gray-700 absolute top-full mt-1">
+                                                            <ul class="max-h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200"
+                                                                aria-labelledby="{{ $advert->id }}-dropdownUsersButton">
+
+                                                                @foreach ($advert->users as $user)
+                                                                    <li>
+                                                                        <a href="#"
+                                                                            class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                                            <img class="w-6 h-6 me-2 rounded-full"
+                                                                                src="{{ asset('storage/avatars/' . $user->image) }}"
+                                                                                alt="{{ $user->name }} image">
+                                                                            {{ $user->name }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-3">
+                                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ $advert->users()->count() }}</span>
+                                                </td>
                                                 <td class="px-4 py-3 flex items-center justify-end">
                                                     <button id="{{ $advert->id }}-dropdown-button"
                                                         data-dropdown-toggle="{{ $advert->id }}-dropdown"

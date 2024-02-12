@@ -76,14 +76,18 @@ class AdvertController extends Controller
         if (auth()->check()) {
             $user = auth()->user();
 
+            if ($advert->users()->where('user_id', $user->id)->exists()) {
+                return response()->json(['message' => 'You have already applied to this advertisement'], 400);
+            }
+
             $advert->users()->attach($user);
 
             return response()->json(['message' => 'Application successful'], 200);
         } else {
-
             return redirect('/register');
         }
     }
+
 
     public function create(): View
     {
