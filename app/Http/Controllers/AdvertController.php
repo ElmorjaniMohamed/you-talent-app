@@ -6,11 +6,13 @@ use App\Http\Requests\StoreAdvertRequest;
 use App\Models\Company;
 use App\Models\Advert;
 use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
 
 class AdvertController extends Controller
 {
@@ -58,14 +60,32 @@ class AdvertController extends Controller
     }
     public function home(): View
     {
-        $userSkills = auth()->user()->skills;
+        $user = User::find(Auth::id());
 
-        $adverts = Advert::whereHas('skills', function ($query) use ($userSkills) {
-            $query->whereIn('id', $userSkills->pluck('id'));
-        })->latest()->with('company', 'skills')->paginate(8);
+        if ($user) {
+            if ($user->isAdmin()) {
+
+                $adverts = Advert::latest()->with('company', 'skills')->paginate(8);
+            } else {
+
+                $userSkills = $user->skills;
+                $halfSkillsCount = $userSkills->count() / 2;
+
+                $adverts = Advert::whereHas('skills', function ($query) use ($userSkills) {
+                    $query->whereIn('id', $userSkills->pluck('id'));
+                })
+                    ->with('company', 'skills') 
+                    ->latest()
+                    ->paginate(8);
+            }
+        } else {
+
+            return redirect()->route('/');
+        }
 
         $companies = Company::all();
         $skills = Skill::all();
+
         return view('welcome', compact('adverts', 'companies', 'skills'))
             ->with('i', (request()->input('page', 1) - 1) * 8);
     }
@@ -73,8 +93,12 @@ class AdvertController extends Controller
 
     public function apply(Request $request, Advert $advert)
     {
-        if (auth()->check()) {
-            $user = auth()->user();
+        if (Auth::check()) {
+            $user = User::find(Auth::id());
+
+            if ($user->isAdmin()) {
+                return response()->json(['message' => 'Administrators and super administrators cannot apply to advertisements'], 403);
+            }
 
             if ($advert->users()->where('user_id', $user->id)->exists()) {
                 return response()->json(['message' => 'You have already applied to this advertisement'], 400);

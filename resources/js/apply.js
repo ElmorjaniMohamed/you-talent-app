@@ -33,10 +33,10 @@ $(document).ready(function() {
                         icon: "info",
                     });
                 } else {
-                    
+
                     Swal.fire({
                         title: "Failed!",
-                        text: "Unable to apply Advert!",
+                        text: "Administrators and super administrators cannot apply to advertisements",
                         icon: "error",
                     });
                 }

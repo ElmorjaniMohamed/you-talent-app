@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Advert::class, 'adverts_users');
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin') || $this->hasRole('superAdmin');
+    }
 }

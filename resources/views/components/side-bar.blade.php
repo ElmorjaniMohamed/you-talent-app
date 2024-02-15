@@ -4,9 +4,9 @@
     <div class="h-full px-3 py-4 overflow-y-auto bg-slate-50 dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
             <li>
-                <a href="#"
-                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:text-slate-50 hover:bg-blue-600 dark:hover:bg-gray-600 group">
-                    <svg class="w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-500 group-hover:text-slate-50 dark:group-hover:text-white"
+                <a href="{{ route('dashboard') }}"
+                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:text-slate-50 hover:bg-blue-600 dark:hover:bg-gray-600 group {{ request()->routeIs('dashboard') ? 'bg-blue-500 text-slate-50' : '' }}">
+                    <svg class="w-5 h-5 text-blue-500 transition duration-75 dark:text-blue-500 group-hover:text-slate-50 dark:group-hover:text-white {{ request()->routeIs('dashboard') ? 'text-slate-50 dark:text-slate-50' : '' }}"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                         <path
                             d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
