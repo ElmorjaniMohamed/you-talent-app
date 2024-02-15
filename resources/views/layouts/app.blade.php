@@ -14,16 +14,24 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dark.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dark.js', 'resources/js/advert.js'])
     @vite(['node_modules/flowbite/dist/flowbite.min.js'])
+    @vite(['node_modules/animate.css/animate.min.css'])
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-slate-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -40,6 +48,15 @@
             {{ $slot }}
         </main>
     </div>
+
+    <!-- script js -->
+    @include('sweetalert::alert')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @vite(['resources/js/advert.js'])
+    @vite(['resources/js/user.js'])
+    @vite(['resources/js/role.js'])
+    @vite(['resources/js/skill.js'])
+
 </body>
 
 </html>

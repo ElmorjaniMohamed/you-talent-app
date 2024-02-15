@@ -17,4 +17,16 @@ class Advert extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'adverts_skills');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'adverts_users');
+    }
+
+
 }

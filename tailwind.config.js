@@ -3,8 +3,7 @@ import forms from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode: 'class',
-    darkMode: 'media',
+    darkMode: "class",
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
@@ -14,8 +13,12 @@ export default {
 
     theme: {
         extend: {
+            scrollbarHide: {
+        scrollbar: '::-webkit-scrollbar { display: none; }',
+
+      },
             fontFamily: {
-                'unbounded': ['Unbounded', 'sans-serif'],
+                unbounded: ["Unbounded", "sans-serif"],
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
                 body: [
                     "Inter",
@@ -53,6 +56,9 @@ export default {
                 ],
             },
             colors: {
+                defaultText: "#363848",
+                cardGrey: "#161E2D",
+                textGrey: "#8E95A1",
                 primary: {
                     50: "#eff6ff",
                     100: "#dbeafe",
@@ -70,5 +76,11 @@ export default {
         },
     },
 
-    plugins: [forms, require("flowbite/plugin")],
+    plugins: [
+        forms,
+        require("flowbite/plugin")({
+            charts: true,
+        }),
+        require("tailwind-scrollbar-hide"),
+    ],
 };
